@@ -1,0 +1,44 @@
+package io.itsvks.anyhow
+
+/**
+ * Returns an [Iterator] over the possibly contained [value][Result.value].
+ *
+ * The iterator yields one [value][Result.value] if this result [is ok][Result.isOk], otherwise
+ * throws [NoSuchElementException].
+ *
+ * - Rust: [Result.iter](https://doc.rust-lang.org/std/result/enum.Result.html#method.iter)
+ */
+public fun <V, E> Result<V, E>.iterator(): Iterator<V> {
+    return ResultIterator(this)
+}
+
+/**
+ * Returns a [MutableIterator] over the possibly contained [value][Result.value].
+ *
+ * The iterator yields one [value][Result.value] if this result [is ok][Result.isOk], otherwise
+ * throws [NoSuchElementException].
+ *
+ * - Rust: [Result.iter_mut](https://doc.rust-lang.org/std/result/enum.Result.html#method.iter_mut)
+ */
+public fun <V, E> Result<V, E>.mutableIterator(): MutableIterator<V> {
+    return ResultIterator(this)
+}
+
+private class ResultIterator<out V, out E>(private val result: Result<V, E>) : MutableIterator<V> {
+    private var yielded = false
+
+    override fun remove() {
+        yielded = true
+    }
+
+    override fun next(): V {
+        if (hasNext()) {
+            remove()
+            return result.value
+        } else {
+            throw NoSuchElementException()
+        }
+    }
+
+    override fun hasNext() = !yielded && result.isOk
+}
