@@ -127,6 +127,8 @@ val result: AnyhowResult<Int> = kResult.anyhow()
 
 ## Plug-in for IntelliJ-based IDEs
 
+> This library internally uses [arrow-kt](https://arrow-kt.io/).
+
 If you are using an [IntelliJ IDEA](https://www.jetbrains.com/idea/) or any other IDE from JetBrains, we strongly recommend installing the [Arrow plug-in](https://plugins.jetbrains.com/plugin/24550-arrow). The plug-in helps fix common problems, especially in the realm of typed errors and suggests more idiomatic alternatives when available.
 
 ## Rust vs Kotlin Example
