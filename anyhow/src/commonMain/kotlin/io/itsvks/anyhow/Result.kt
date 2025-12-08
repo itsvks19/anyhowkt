@@ -229,7 +229,7 @@ public fun <V, E> Result<Result<V, E>, E>.flatten(): Result<V, E> {
  *
  * - Rust: [Result.and](https://doc.rust-lang.org/std/result/enum.Result.html#method.and)
  */
-public fun <V, E, U> Result<V, E>.and(result: Result<U, E>): Result<U, E> {
+public infix fun <V, E, U> Result<V, E>.and(result: Result<U, E>): Result<U, E> {
     return when {
         isOk -> result
         else -> this.asErr()
@@ -259,7 +259,7 @@ public inline fun <V, E, U> Result<V, E>.andThen(transform: (V) -> Result<U, E>)
  *
  * This is functionally equivalent to [andThen].
  */
-public inline infix fun <V, E, U> Result<V, E>.flatMap(transform: (V) -> Result<U, E>): Result<U, E> {
+public inline fun <V, E, U> Result<V, E>.flatMap(transform: (V) -> Result<U, E>): Result<U, E> {
     contract {
         callsInPlace(transform, InvocationKind.AT_MOST_ONCE)
     }
@@ -539,7 +539,7 @@ public inline fun <V, E> Result<V, E>.toErrorUnlessNull(error: () -> E): Result<
  *
  * - Rust: [Result.ok](https://doc.rust-lang.org/std/result/enum.Result.html#method.ok)
  */
-public fun <V, E> Result<V, E>.get(): V? {
+public fun <V, E> Result<V, E>.getOrNull(): V? {
     return when {
         isOk -> value
         else -> null
@@ -547,10 +547,27 @@ public fun <V, E> Result<V, E>.get(): V? {
 }
 
 /**
- * Alias for [get]
+ * Returns the [value][Result.value] if this result [is ok][Result.isOk], otherwise throws the
+ * [error][Result.error]
+ */
+public fun <V, E> Result<V, E>.get(): V {
+    return when {
+        isOk -> value
+        else -> if (error is Throwable) {
+            throw error as Throwable
+        } else {
+            error("Result is an error: $error")
+        }
+    }
+}
+
+/**
+ * Alias for [getOrNull]
+ *
+ * - Rust: [Result.ok](https://doc.rust-lang.org/std/result/enum.Result.html#method.ok)
  */
 @Suppress("NOTHING_TO_INLINE")
-public inline fun <V, E> Result<V, E>.ok() = get()
+public inline fun <V, E> Result<V, E>.ok() = getOrNull()
 
 /**
  * Returns the [error][Result.error] if this result [is an error][Result.isErr], otherwise `null`.
@@ -558,6 +575,18 @@ public inline fun <V, E> Result<V, E>.ok() = get()
  * - Rust: [Result.err](https://doc.rust-lang.org/std/result/enum.Result.html#method.err)
  */
 public fun <V, E> Result<V, E>.getError(): E? {
+    return when {
+        isErr -> error
+        else -> null
+    }
+}
+
+/**
+ * Alias for [getError]
+ *
+ * - Rust: [Result.err](https://doc.rust-lang.org/std/result/enum.Result.html#method.err)
+ */
+public fun <V, E> Result<V, E>.errorOrNull(): E? {
     return when {
         isErr -> error
         else -> null
