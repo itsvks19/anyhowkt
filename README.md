@@ -29,7 +29,7 @@ and expressive way to handle errors with:
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation("io.github.itsvks19:anyhowkt:1.0.0")
+        implementation("io.github.itsvks19:anyhowkt:1.0.1")
     }
 }
 ```
@@ -38,7 +38,7 @@ sourceSets {
 
 ```kotlin
 dependencies {
-    implementation("io.github.itsvks19:anyhowkt:1.0.0")
+    implementation("io.github.itsvks19:anyhowkt:1.0.1")
 }
 ```
 
