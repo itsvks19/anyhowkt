@@ -26,10 +26,12 @@ and expressive way to handle errors with:
 
 ### Gradle (Kotlin DSL) [Multiplatform]
 
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.itsvks19/anyhowkt)
+
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation("io.github.itsvks19:anyhowkt:1.0.1")
+        implementation("io.github.itsvks19:anyhowkt:<version>")
     }
 }
 ```
@@ -38,7 +40,7 @@ sourceSets {
 
 ```kotlin
 dependencies {
-    implementation("io.github.itsvks19:anyhowkt:1.0.1")
+    implementation("io.github.itsvks19:anyhowkt:<version>")
 }
 ```
 
