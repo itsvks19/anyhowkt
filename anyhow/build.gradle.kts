@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "io.github.itsvks19"
-version = "1.0.0"
+version = "1.0.1"
 
 kotlin {
     compilerOptions {
