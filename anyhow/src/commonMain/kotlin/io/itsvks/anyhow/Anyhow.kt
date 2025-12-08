@@ -72,6 +72,8 @@ public class AnyhowError internal constructor(
         return (ctx + cause?.message).joinToString("\nCaused by: ")
     }
 
+    override val message: String get() = toString()
+
     companion object {
 
         /**
